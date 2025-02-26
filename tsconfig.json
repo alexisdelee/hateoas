@@ -1,0 +1,13 @@
+{
+  "extends": ["@tsconfig/strictest/tsconfig.json", "@tsconfig/node23/tsconfig.json"],
+  "compilerOptions": {
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "outDir": "./dist",
+    "incremental": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src"]
+}

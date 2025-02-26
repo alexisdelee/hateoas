@@ -1,10 +1,13 @@
 {
   "name": "hateoas",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "A library to facilitate Hypermedia as the Engine of Application State in Node",
   "main": "index.js",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "scripts": {
-    "test": "gulp test"
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -21,11 +24,11 @@
   },
   "homepage": "https://github.com/itsananderson/hateoas",
   "dependencies": {
-    "extend": "^3.0.0"
+    "@types/node": "^22.13.5"
   },
   "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-mocha": "^2.1.2",
-    "gulp-plumber": "^1.0.1"
+    "@tsconfig/node23": "^23.0.0",
+    "@tsconfig/strictest": "^2.0.5",
+    "typescript": "^5.7.3"
   }
 }

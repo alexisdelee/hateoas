@@ -1,70 +1,51 @@
 # hateaos
-A library to facilitate Hypermedia as the Engine of Application State in Node
 
-Simple guide for getting started. More coming soon...
+A library to facilitate Hypermedia as the Engine of Application State in Node.
 
-```javascript
-var hateoas = require("hateoas")({baseUrl: "http://localhost:3000"});
+```typescript
+import hateoas from "hateoas";
 
-hateoas.registerLinkHandler("root", function() {
-    return {
-        "self": "/",
-        "users": "/users"
-    };
-});
+interface User {
+  id: string;
+}
 
-hateoas.registerLinkHandler("user", function(user) {
-    var links = {
-        "self": "/users/" + user.id,
-    };
+const routing = hateoas({ baseUrl: "http://localhost:3000" })
+  .registerLinkHandler("root", () => ({ self: "/", users: "/users" }))
+  .registerLinkHandler("user", (user: User) => {
+    self: `/users/${user.id}`,
+    ...(isAdmin() ? { delete: `/users/${user.id}` } : {})
+  })
+  .registerCollectionLinkHandler("users", (users: User[]) => ({
+    self: "/users",
+    ...(isAdmin() ? { create: "/users" } : {})
+  }));
 
-    if (isAdmin()) {
-        links["delete"] = "/users/" + user.id
-    }
-
-    return links;
-});
-
-hateoas.registerCollectionLinkHandler("user", function(userCollection) {
-    var links = {
-        "self": "/users"
-    };
-
-    if (isAdmin()) {
-        links["create"] = "/users"
-    }
-    
-    return links;
-});
-
-hateoas.link("user", {id: 123});
+routing.link("user", { id: 123 });
 /*
 {
-    id: 123,
-    links: {
-        self: "http://localhost:3000/users/123",
-        delete: "http://localhost:3000/users/123"
-    }
+  id: 123,
+  links: {
+    self: "http://localhost:3000/users/123",
+    delete: "http://localhost:3000/users/123"
+  }
 }
 */
 
-
-hateoas.link("user", [{id: 123}]);
+routing.link("users", [{ id: 123 }]);
 /*
 {
-    data: [
-        {
-            id: 123,
-            links: {
-                self: "http://localhost:3000/users/123",
-                delete: "http://localhost:3000/users/123"
-            }
-        }
-    ],
-    links: {
-        self: "http://localhost:3000/users",
-        create: "http://localhost:3000/users"
+  data: [
+    {
+      id: 123,
+      links: {
+        self: "http://localhost:3000/users/123",
+        delete: "http://localhost:3000/users/123"
+      }
     }
+  ],
+  links: {
+    self: "http://localhost:3000/users",
+    create: "http://localhost:3000/users"
+  }
 */
-
 ```
