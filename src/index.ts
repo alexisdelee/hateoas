@@ -72,7 +72,7 @@ function hateoas(options: HateoasOptions): HateoasInstance {
     return (Object.entries(links) as [K, string][]).reduce(
       (acc, [key, value]) => ({
         ...acc,
-        [key]: value.startsWith("/") ? `${baseUrl}${value}` : value,
+        [key]: value.startsWith("/") ? `${baseUrl}${value}` : `${baseUrl}/${value}`,
       }),
       {} as Record<K, string>
     );
