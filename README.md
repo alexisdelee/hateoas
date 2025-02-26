@@ -47,5 +47,6 @@ routing.link("users", [{ id: 123 }]);
     self: "http://localhost:3000/users",
     create: "http://localhost:3000/users"
   }
+}
 */
 ```
